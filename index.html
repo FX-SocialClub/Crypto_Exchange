@@ -83,14 +83,15 @@
       justify-content: space-between;
       padding: 8px 48px;
       pointer-events: auto;
-      background: rgba(2,2,3,0.85);
-      -webkit-backdrop-filter: blur(20px);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      transition: background 0.3s ease, padding 0.3s ease;
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
     }
     .nav.scrolled {
-      background: rgba(2,2,3,0.92);
+      background: rgba(2,2,3,0.75);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      border-bottom-color: rgba(255,255,255,0.06);
       padding: 4px 48px;
     }
     .nav-brand {
@@ -167,16 +168,17 @@
 
     /* ===== LIGHT (WHITE) THEME OVERRIDES ===== */
     html.theme-white .hero-h1 {
-      color: #020203;
+      color: #020203 !important;
     }
     html.theme-white .hero-h1 .line {
+      color: #020203 !important;
       text-shadow:
         0 2px 20px rgba(255,255,255,0.9),
         0 4px 40px rgba(255,255,255,0.75),
-        0 0 60px rgba(96,223,46,0.15);
+        0 0 60px rgba(96,223,46,0.15) !important;
     }
     html.theme-white .hero-h1 .accent {
-      color: #1a6b0a;
+      color: #1a6b0a !important;
       background: linear-gradient(180deg, #3aa11a 0%, #1a6b0a 55%, #0e4a04 100%);
       -webkit-background-clip: text;
       background-clip: text;
@@ -185,7 +187,7 @@
     html.theme-white .hero-h1 .arrow,
     html.theme-white .hero-h1 .dim,
     html.theme-white .hero-h1 .cursor {
-      color: rgba(2,2,3,0.45);
+      color: rgba(2,2,3,0.55) !important;
     }
     /* Logo: dark glow instead of light on white bg */
     html.theme-white .nav-brand-logo {
@@ -198,12 +200,26 @@
     html.theme-white .nav-brand::before {
       background: radial-gradient(closest-side, rgba(60,100,180,0.25), rgba(60,100,180,0.1) 45%, transparent 75%);
     }
+    /* NAV in light mode: always white bg so header is visible over the light 3D scene */
     html.theme-white .nav {
-      background: rgba(255,255,255,0.85);
-      border-bottom-color: rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.88) !important;
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.06) !important;
     }
     html.theme-white .nav.scrolled {
-      background: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.95) !important;
+    }
+    html.theme-white .nav-links a {
+      color: rgba(2,2,3,0.65) !important;
+    }
+    html.theme-white .nav-links a:hover {
+      color: #020203 !important;
+    }
+    html.theme-white .nav-cta {
+      background: #020203 !important;
+      color: #fff !important;
+      border-color: #020203 !important;
     }
     .nav-links {
       display: flex;
