@@ -167,14 +167,17 @@
     }
 
     /* ===== LIGHT (WHITE) THEME OVERRIDES ===== */
+    /* Hero title in light mode should read as BLACK. Because of the global invert filter
+       on html.theme-white, we specify WHITE in CSS — it renders as black on screen.
+       Text-shadow colors are likewise flipped so the halo reads as soft white glow. */
     html.theme-white .hero-h1 {
-      color: #020203 !important;
+      color: #ffffff !important;
     }
     html.theme-white .hero-h1 .line {
-      color: #020203 !important;
+      color: #ffffff !important;
       text-shadow:
-        0 2px 20px rgba(255,255,255,0.9),
-        0 4px 40px rgba(255,255,255,0.75),
+        0 2px 20px rgba(0,0,0,0.9),
+        0 4px 40px rgba(0,0,0,0.75),
         0 0 60px rgba(96,223,46,0.15) !important;
     }
     html.theme-white .hero-h1 .accent {
@@ -187,7 +190,7 @@
     html.theme-white .hero-h1 .arrow,
     html.theme-white .hero-h1 .dim,
     html.theme-white .hero-h1 .cursor {
-      color: rgba(2,2,3,0.55) !important;
+      color: rgba(253,253,252,0.55) !important; /* renders as rgba(2,2,3,0.55) — dark grey */
     }
     /* Logo: dark glow instead of light on white bg */
     html.theme-white .nav-brand-logo {
@@ -200,15 +203,20 @@
     html.theme-white .nav-brand::before {
       background: radial-gradient(closest-side, rgba(60,100,180,0.25), rgba(60,100,180,0.1) 45%, transparent 75%);
     }
-    /* NAV in light mode: always white bg so header is visible over the light 3D scene */
+    /* NAV in light mode: transparent so bubbles are visible around the whole header perimeter
+       (same principle as the dark version). Values are pre-inverted because html.theme-white
+       applies filter: invert(1) hue-rotate(180deg) — rgba(0,0,0,x) renders as rgba(255,255,255,x). */
     html.theme-white .nav {
-      background: rgba(255,255,255,0.88) !important;
-      -webkit-backdrop-filter: blur(20px);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+      background: transparent !important;
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+      border-bottom: 1px solid transparent !important;
     }
     html.theme-white .nav.scrolled {
-      background: rgba(255,255,255,0.95) !important;
+      background: rgba(0,0,0,0.25) !important; /* renders as semi-transparent white on scroll */
+      -webkit-backdrop-filter: blur(20px) !important;
+      backdrop-filter: blur(20px) !important;
+      border-bottom: 1px solid rgba(255,255,255,0.06) !important; /* renders as subtle dark divider */
     }
     html.theme-white .nav-links a {
       color: rgba(2,2,3,0.65) !important;
