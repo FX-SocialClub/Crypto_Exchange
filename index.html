@@ -77,21 +77,23 @@
     .nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 8px 48px;
       pointer-events: auto;
-      background: transparent;
-      border-bottom: 1px solid transparent;
+      background: rgba(2,2,3,0.55);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
       transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
     }
     .nav.scrolled {
-      background: rgba(2,2,3,0.75);
+      background: rgba(2,2,3,0.82);
       -webkit-backdrop-filter: blur(20px);
       backdrop-filter: blur(20px);
-      border-bottom-color: rgba(255,255,255,0.06);
+      border-bottom-color: rgba(255,255,255,0.08);
       padding: 4px 48px;
     }
     .nav-brand {
@@ -207,27 +209,36 @@
        (same principle as the dark version). Values are pre-inverted because html.theme-white
        applies filter: invert(1) hue-rotate(180deg) — rgba(0,0,0,x) renders as rgba(255,255,255,x). */
     html.theme-white .nav {
-      background: transparent !important;
-      -webkit-backdrop-filter: none !important;
-      backdrop-filter: none !important;
-      border-bottom: 1px solid transparent !important;
+      background: rgba(0,0,0,0.55) !important; /* renders as ~white translucent — pinned bar */
+      -webkit-backdrop-filter: blur(14px) !important;
+      backdrop-filter: blur(14px) !important;
+      border-bottom: 1px solid rgba(255,255,255,0.96) !important; /* renders as subtle dark divider */
     }
     html.theme-white .nav.scrolled {
-      background: rgba(0,0,0,0.85) !important; /* renders as solid white — clearly pinned bar on scroll */
+      background: rgba(0,0,0,0.82) !important; /* renders as solid white — clearly pinned bar on scroll */
       -webkit-backdrop-filter: blur(20px) !important;
       backdrop-filter: blur(20px) !important;
-      border-bottom: 1px solid rgba(255,255,255,0.94) !important; /* renders as subtle dark divider */
+      border-bottom: 1px solid rgba(255,255,255,0.92) !important;
     }
+    /* Under invert filter: light CSS values render as DARK on screen.
+       Use white/light values here so the nav text reads as strong dark ink on white. */
     html.theme-white .nav-links a {
-      color: rgba(2,2,3,0.65) !important;
+      color: rgba(255,255,255,0.88) !important; /* renders as ~88% black — strong, readable */
+      font-weight: 500 !important;
     }
     html.theme-white .nav-links a:hover {
-      color: #020203 !important;
+      color: #ffffff !important; /* renders as pure black */
     }
+    /* EXCHANGE button on white site: BLACK pill with white text.
+       CSS bg #fff renders as #000; CSS color #000 renders as #fff. */
     html.theme-white .nav-cta {
-      background: #020203 !important;
-      color: #fff !important;
-      border-color: #020203 !important;
+      background: #ffffff !important;
+      color: #000000 !important;
+      border-color: #ffffff !important;
+    }
+    html.theme-white .nav-cta:hover {
+      opacity: 0.85 !important;
+      color: #000000 !important;
     }
     .nav-links {
       display: flex;
@@ -1560,18 +1571,49 @@
       overflow: hidden;
       position: relative;
     }
+    /* Animated dot grid (drifts horizontally) */
     .hiw-strip::before {
       content: '';
       position: absolute; inset: 0;
-      opacity: 0.35;
+      opacity: 0.45;
       background-image:
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 60%),
-        radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px);
-      background-size: 100% 100%, 6px 6px;
-      background-position: center, 0 0;
+        radial-gradient(rgba(255,255,255,0.55) 1px, transparent 1px);
+      background-size: 6px 6px;
+      background-position: 0 0;
       mask-image: radial-gradient(ellipse 70% 90% at 50% 50%, #000 30%, transparent 100%);
       -webkit-mask-image: radial-gradient(ellipse 70% 90% at 50% 50%, #000 30%, transparent 100%);
       pointer-events: none;
+      animation: hiwDrift 22s linear infinite;
+      will-change: background-position;
+    }
+    /* Pulsing central glow + sweeping scan line */
+    .hiw-strip::after {
+      content: '';
+      position: absolute; inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at var(--hiw-x, 50%) 50%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 55%),
+        linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 48%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.08) 52%, transparent 100%);
+      background-size: 100% 100%, 200% 100%;
+      background-position: 0 0, -100% 0;
+      background-repeat: no-repeat;
+      mix-blend-mode: screen;
+      animation: hiwPulse 4.5s ease-in-out infinite, hiwScan 6s linear infinite;
+    }
+    @keyframes hiwDrift {
+      from { background-position: 0 0; }
+      to   { background-position: 240px 0; }
+    }
+    @keyframes hiwPulse {
+      0%, 100% { opacity: 0.35; --hiw-x: 45%; }
+      50%      { opacity: 0.75; --hiw-x: 55%; }
+    }
+    @keyframes hiwScan {
+      from { background-position: 0 0, -60% 0; }
+      to   { background-position: 240px 0, 160% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hiw-strip::before, .hiw-strip::after { animation: none; }
     }
     .hiw-grid {
       display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
@@ -7382,7 +7424,7 @@ void main() {
   // ===== NAV SCROLL EFFECT =====
   const mainNav = document.querySelector('.nav');
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 80) mainNav.classList.add('scrolled');
+    if (window.scrollY > 10) mainNav.classList.add('scrolled');
     else mainNav.classList.remove('scrolled');
   }, { passive: true });
 
