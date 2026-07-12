@@ -1540,45 +1540,38 @@
     }
     @media (max-width: 768px) { .fx-section { padding: 80px 24px; } .fx-lead { margin-bottom: 40px; } }
 
-    /* --- How It Works (canvas erase) --- */
+    /* --- How It Works --- */
     #how { overflow: hidden; }
-    .hiw-canvas-wrap {
-      position: relative;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      overflow: hidden;
-      margin-bottom: 60px;
-      aspect-ratio: 16 / 5;
-      min-height: 220px;
-      background:
-        linear-gradient(135deg, #0a1420 0%, #061018 100%);
-    }
-    .hiw-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; }
-    .hiw-layer.top {
-      background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-      backdrop-filter: blur(4px);
-      color: rgba(255,255,255,0.7);
-    }
-    .hiw-layer.back {
-      color: #60df2e;
-      font-family: 'Rubik 80s Fade', 'Share Tech Mono', monospace;
-      font-size: clamp(24px, 4vw, 52px);
+    .hiw-section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      text-shadow: 0 0 30px rgba(96,223,46,0.4);
+      color: rgba(255,255,255,0.25);
+      padding-bottom: 24px;
+      margin-bottom: 40px;
     }
-    .hiw-canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair; z-index: 3; }
-    .hiw-hint {
-      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-      font-family: 'Share Tech Mono', monospace; font-size: 11px;
-      color: rgba(255,255,255,0.5); letter-spacing: 2px; text-transform: uppercase;
-      z-index: 4; pointer-events: none;
-      display: flex; align-items: center; gap: 10px;
+    .hiw-strip {
+      margin-top: 48px;
+      height: 360px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: #020203;
+      overflow: hidden;
+      position: relative;
     }
-    .hiw-hint::before {
-      content: ''; width: 8px; height: 8px; border-radius: 50%;
-      background: #60df2e; box-shadow: 0 0 12px #60df2e;
-      animation: pulse 1.5s ease-in-out infinite;
+    .hiw-strip::before {
+      content: '';
+      position: absolute; inset: 0;
+      opacity: 0.35;
+      background-image:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 60%),
+        radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px);
+      background-size: 100% 100%, 6px 6px;
+      background-position: center, 0 0;
+      mask-image: radial-gradient(ellipse 70% 90% at 50% 50%, #000 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 90% at 50% 50%, #000 30%, transparent 100%);
+      pointer-events: none;
     }
     .hiw-grid {
       display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
@@ -6950,21 +6943,11 @@ void main() {
      ============================================================ -->
 <section class="fx-section" id="how">
   <div class="fx-inner">
+    <div class="hiw-section-label reveal">How It Works</div>
     <div class="fx-eyebrow reveal">/ Process</div>
     <h2 class="fx-h2 reveal reveal-delay-1">How it works <span class="thin">— four steps</span></h2>
 
-    <div class="hiw-canvas-wrap reveal reveal-delay-2">
-      <div class="hiw-layer back">USDT · TRC-20 → CASH · UAH</div>
-      <div class="hiw-layer top" id="hiw-top-layer">
-        <div style="font-family:'Share Tech Mono',monospace;font-size:clamp(18px,2.5vw,26px);letter-spacing:2px;text-transform:uppercase;">
-          Two sides of every trade
-        </div>
-      </div>
-      <canvas class="hiw-canvas" id="hiw-canvas" aria-hidden="true"></canvas>
-      <div class="hiw-hint">Move cursor across the surface — reveal the other side</div>
-    </div>
-
-    <div class="hiw-grid reveal reveal-delay-3">
+    <div class="hiw-grid reveal reveal-delay-2">
       <div class="hiw-step">
         <div class="hiw-step-num">STEP 01</div>
         <div class="hiw-step-title">Submit request</div>
@@ -6986,6 +6969,8 @@ void main() {
         <div class="hiw-step-body">Funds land the moment the on-chain transaction confirms. Full receipt, no residue.</div>
       </div>
     </div>
+
+    <div class="hiw-strip reveal reveal-delay-3" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -7297,49 +7282,6 @@ void main() {
 </footer>
 
 <script>
-/* ===== HOW IT WORKS — canvas erase ===== */
-(function(){
-  const canvas = document.getElementById('hiw-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let dpr = window.devicePixelRatio || 1;
-
-  function resize(){
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    // Paint the overlay (dark cover with subtle texture)
-    ctx.globalCompositeOperation = 'source-over';
-    const g = ctx.createLinearGradient(0,0,rect.width,rect.height);
-    g.addColorStop(0, 'rgba(10,20,32,0.98)');
-    g.addColorStop(1, 'rgba(6,16,24,0.98)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0,0,rect.width,rect.height);
-    // subtle noise
-    for (let i=0; i<600; i++){
-      ctx.fillStyle = 'rgba(255,255,255,'+(Math.random()*0.03)+')';
-      ctx.fillRect(Math.random()*rect.width, Math.random()*rect.height, 1, 1);
-    }
-    ctx.globalCompositeOperation = 'destination-out';
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  function erase(x,y){
-    const rect = canvas.getBoundingClientRect();
-    ctx.beginPath();
-    ctx.arc(x - rect.left, y - rect.top, 45, 0, Math.PI*2);
-    ctx.fill();
-  }
-  let drawing = false;
-  canvas.addEventListener('mousemove', e => { erase(e.clientX, e.clientY); });
-  canvas.addEventListener('touchmove', e => {
-    e.preventDefault();
-    for (const t of e.touches) erase(t.clientX, t.clientY);
-  }, {passive:false});
-})();
-
 /* ===== CALCULATOR ===== */
 (function(){
   const dropdowns = document.querySelectorAll('.calc-dropdown');
