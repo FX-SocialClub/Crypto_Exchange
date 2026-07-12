@@ -130,8 +130,6 @@
       width: auto;
       max-width: 520px;
       object-fit: contain;
-      /* Drop the black background — keep only the glowing logo */
-      mix-blend-mode: screen;
       filter:
         drop-shadow(0 0 10px rgba(180,220,255,0.55))
         drop-shadow(0 0 26px rgba(120,180,255,0.35))
@@ -1454,6 +1452,452 @@
       -webkit-user-select: text;
       user-select: text;
     }
+    /* ============================================================
+       FX EXCHANGE — NEW SECTIONS
+       ============================================================ */
+
+    /* --- Shared --- */
+    .fx-section { padding: 140px 48px; position: relative; z-index: 10; background: #020203; }
+    .fx-inner { max-width: 1280px; margin: 0 auto; width: 100%; }
+    .fx-eyebrow {
+      font-family: 'Share Tech Mono', ui-monospace, monospace;
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-bottom: 20px;
+    }
+    .fx-h2 {
+      font-family: 'Share Tech Mono', ui-monospace, monospace;
+      font-size: clamp(32px, 4.5vw, 60px);
+      color: #fff; line-height: 1.05; letter-spacing: -0.5px;
+      margin-bottom: 24px; text-transform: uppercase;
+    }
+    .fx-h2 .thin { color: rgba(255,255,255,0.3); }
+    .fx-lead {
+      font-family: 'Share Tech Mono', ui-monospace, monospace;
+      font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.55);
+      max-width: 640px; margin-bottom: 60px;
+    }
+    @media (max-width: 768px) { .fx-section { padding: 80px 24px; } .fx-lead { margin-bottom: 40px; } }
+
+    /* --- How It Works (canvas erase) --- */
+    #how { overflow: hidden; }
+    .hiw-canvas-wrap {
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 60px;
+      aspect-ratio: 16 / 5;
+      min-height: 220px;
+      background:
+        linear-gradient(135deg, #0a1420 0%, #061018 100%);
+    }
+    .hiw-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; }
+    .hiw-layer.top {
+      background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      backdrop-filter: blur(4px);
+      color: rgba(255,255,255,0.7);
+    }
+    .hiw-layer.back {
+      color: #60df2e;
+      font-family: 'Rubik 80s Fade', 'Share Tech Mono', monospace;
+      font-size: clamp(24px, 4vw, 52px);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 0 30px rgba(96,223,46,0.4);
+    }
+    .hiw-canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair; z-index: 3; }
+    .hiw-hint {
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      font-family: 'Share Tech Mono', monospace; font-size: 11px;
+      color: rgba(255,255,255,0.5); letter-spacing: 2px; text-transform: uppercase;
+      z-index: 4; pointer-events: none;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hiw-hint::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: #60df2e; box-shadow: 0 0 12px #60df2e;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    .hiw-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06);
+    }
+    .hiw-step {
+      background: #020203; padding: 40px 32px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: background 0.3s ease;
+    }
+    .hiw-step:hover { background: rgba(255,255,255,0.02); }
+    .hiw-step-num {
+      font-family: 'Share Tech Mono', monospace; font-size: 11px;
+      color: rgba(255,255,255,0.4); letter-spacing: 2px;
+    }
+    .hiw-step-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 20px; color: #fff; letter-spacing: -0.3px;
+      text-transform: uppercase;
+    }
+    .hiw-step-body {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.55);
+    }
+    @media (max-width: 900px) { .hiw-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .hiw-grid { grid-template-columns: 1fr; } }
+
+    /* --- Calculator --- */
+    .calc-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 720px;
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+    .calc-row {
+      display: flex; align-items: stretch; gap: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 18px 20px;
+      margin-bottom: 12px;
+    }
+    .calc-row-label {
+      font-family: 'Share Tech Mono', monospace; font-size: 10px;
+      color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .calc-row-body { flex: 1; display: flex; gap: 12px; align-items: center; }
+    .calc-dropdown {
+      position: relative; min-width: 150px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 10px 14px; cursor: pointer;
+      font-family: 'Share Tech Mono', monospace; font-size: 13px;
+      color: #fff; letter-spacing: 1px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .calc-dropdown:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.09); }
+    .calc-dropdown::after {
+      content: '▾'; opacity: 0.5; font-size: 10px;
+    }
+    .calc-dropdown-menu {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+      background: #0a0a10; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; overflow: hidden; z-index: 20;
+      max-height: 240px; overflow-y: auto;
+      display: none;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+    .calc-dropdown.open .calc-dropdown-menu { display: block; }
+    .calc-dropdown-item {
+      padding: 10px 14px; font-size: 13px; color: rgba(255,255,255,0.75);
+      cursor: pointer; display: flex; align-items: center; gap: 10px;
+      transition: background 0.15s ease;
+    }
+    .calc-dropdown-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .calc-dropdown-item .icon {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: linear-gradient(135deg, #60df2e, #3aa11a);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 700; color: #020203;
+    }
+    .calc-input {
+      flex: 1; background: transparent; border: none; outline: none;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 22px; color: #fff; letter-spacing: -0.5px;
+      text-align: right; min-width: 0;
+    }
+    .calc-input::placeholder { color: rgba(255,255,255,0.2); }
+    .calc-swap {
+      display: flex; justify-content: center; margin: 4px 0;
+    }
+    .calc-swap-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(96,223,46,0.1); border: 1px solid rgba(96,223,46,0.3);
+      color: #60df2e; font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s ease, background 0.2s ease;
+    }
+    .calc-swap-btn:hover { background: rgba(96,223,46,0.2); transform: rotate(180deg); }
+    .calc-info {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 20px; margin: 20px 0;
+      background: rgba(96,223,46,0.05); border: 1px solid rgba(96,223,46,0.15);
+      border-radius: 12px;
+      font-family: 'Share Tech Mono', monospace; font-size: 12px;
+      color: rgba(255,255,255,0.7); letter-spacing: 0.5px;
+    }
+    .calc-info b { color: #60df2e; font-weight: 400; }
+    .calc-cta {
+      width: 100%; padding: 18px; border: none; border-radius: 14px;
+      background: linear-gradient(135deg, #ffffff, #d6dbe4);
+      color: #020203; font-family: 'Share Tech Mono', monospace;
+      font-size: 15px; letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .calc-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,255,255,0.15); }
+    @media (max-width: 600px) {
+      .calc-card { padding: 24px; }
+      .calc-row { padding: 14px 16px; flex-direction: column; align-items: stretch; }
+      .calc-input { text-align: left; font-size: 20px; }
+    }
+
+    /* --- Modal --- */
+    .fx-modal {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(2,2,3,0.85); backdrop-filter: blur(10px);
+      display: none; align-items: center; justify-content: center;
+      padding: 20px; overflow-y: auto;
+    }
+    .fx-modal.open { display: flex; }
+    .fx-modal-card {
+      background: #0a0a10; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px; max-width: 900px; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      overflow: hidden; max-height: 90vh; overflow-y: auto;
+    }
+    .fx-modal-side {
+      padding: 40px; display: flex; flex-direction: column; gap: 20px;
+    }
+    .fx-modal-side.left {
+      background: linear-gradient(180deg, rgba(96,223,46,0.06), rgba(96,223,46,0.01));
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+    .fx-modal-title {
+      font-family: 'Share Tech Mono', monospace; font-size: 20px;
+      color: #fff; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .fx-summary-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-family: 'Share Tech Mono', monospace; font-size: 13px;
+    }
+    .fx-summary-row .label { color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; font-size: 10px; }
+    .fx-summary-row .value { color: #fff; font-size: 15px; }
+    .fx-summary-row .value.accent { color: #60df2e; }
+    .fx-checklist { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-direction: column; gap: 10px; }
+    .fx-checklist li {
+      font-family: 'Share Tech Mono', monospace; font-size: 12px;
+      color: rgba(255,255,255,0.6); padding-left: 24px; position: relative; line-height: 1.6;
+    }
+    .fx-checklist li::before {
+      content: '▸'; position: absolute; left: 4px; top: 0; color: #60df2e;
+    }
+    .fx-field { display: flex; flex-direction: column; gap: 6px; }
+    .fx-field label {
+      font-family: 'Share Tech Mono', monospace; font-size: 10px;
+      color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase;
+    }
+    .fx-field input {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 12px 14px; color: #fff;
+      font-family: 'Share Tech Mono', monospace; font-size: 13px;
+      outline: none; transition: border-color 0.2s ease;
+    }
+    .fx-field input:focus { border-color: rgba(96,223,46,0.5); }
+    .fx-check { display: flex; gap: 10px; align-items: flex-start; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.55); line-height: 1.5; cursor: pointer; }
+    .fx-check input { margin-top: 2px; accent-color: #60df2e; }
+    .fx-submit {
+      background: #60df2e; color: #020203; border: none; padding: 14px;
+      border-radius: 12px; font-family: 'Share Tech Mono', monospace;
+      font-size: 13px; letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .fx-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(96,223,46,0.35); }
+    .fx-modal-close {
+      position: absolute; top: 20px; right: 24px; z-index: 2;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      color: #fff; width: 36px; height: 36px; border-radius: 50%;
+      cursor: pointer; font-size: 16px;
+    }
+    @media (max-width: 720px) {
+      .fx-modal-card { grid-template-columns: 1fr; }
+      .fx-modal-side { padding: 28px 20px; }
+    }
+
+    /* --- About / Advantages --- */
+    .about-lead {
+      font-family: 'Share Tech Mono', monospace; font-size: 15px; line-height: 1.85;
+      color: rgba(255,255,255,0.65); max-width: 780px; margin-bottom: 80px;
+    }
+    .about-lead b { color: #fff; font-weight: 400; }
+    .adv-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06);
+    }
+    .adv-card {
+      background: #020203; padding: 48px 32px;
+      display: flex; flex-direction: column; gap: 20px;
+      transition: background 0.3s ease;
+    }
+    .adv-card:hover { background: rgba(96,223,46,0.02); }
+    .adv-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: rgba(96,223,46,0.1); border: 1px solid rgba(96,223,46,0.25);
+      display: flex; align-items: center; justify-content: center;
+      color: #60df2e;
+    }
+    .adv-title {
+      font-family: 'Share Tech Mono', monospace; font-size: 18px;
+      color: #fff; letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .adv-body {
+      font-family: 'Share Tech Mono', monospace; font-size: 12px;
+      line-height: 1.7; color: rgba(255,255,255,0.55);
+    }
+    @media (max-width: 900px) { .adv-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .adv-grid { grid-template-columns: 1fr; } }
+
+    /* --- Reviews --- */
+    .trust-badges {
+      display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 60px;
+      padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .trust-badge { display: flex; flex-direction: column; gap: 4px; }
+    .trust-badge-val {
+      font-family: 'Share Tech Mono', monospace; font-size: 28px;
+      color: #fff; letter-spacing: -0.5px;
+    }
+    .trust-badge-label {
+      font-family: 'Share Tech Mono', monospace; font-size: 10px;
+      color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase;
+    }
+    .reviews-slider-wrap {
+      position: relative; overflow: hidden;
+      mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    }
+    .reviews-track {
+      display: flex; gap: 20px; width: max-content;
+      animation: reviewScroll 60s linear infinite;
+    }
+    .reviews-slider-wrap:hover .reviews-track { animation-play-state: paused; }
+    @keyframes reviewScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .review-card {
+      width: 360px; flex-shrink: 0;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 24px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .review-head { display: flex; align-items: center; gap: 12px; }
+    .review-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, #60df2e, #3aa11a);
+      color: #020203; display: flex; align-items: center; justify-content: center;
+      font-family: 'Share Tech Mono', monospace; font-weight: 700;
+    }
+    .review-who { display: flex; flex-direction: column; }
+    .review-name { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #fff; }
+    .review-date { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
+    .review-stars { color: #60df2e; font-size: 13px; letter-spacing: 2px; }
+    .review-text { font-family: 'Share Tech Mono', monospace; font-size: 13px; line-height: 1.65; color: rgba(255,255,255,0.7); }
+    .review-tag {
+      align-self: flex-start;
+      font-family: 'Share Tech Mono', monospace; font-size: 10px;
+      color: rgba(96,223,46,0.9); letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 4px 10px; border: 1px solid rgba(96,223,46,0.3);
+      border-radius: 100px;
+    }
+
+    /* --- Contacts --- */
+    .contacts-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+      margin-bottom: 60px;
+    }
+    .contacts-info { display: flex; flex-direction: column; gap: 32px; }
+    .contacts-block { display: flex; flex-direction: column; gap: 8px; }
+    .contacts-block .k {
+      font-family: 'Share Tech Mono', monospace; font-size: 10px;
+      color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase;
+    }
+    .contacts-block .v {
+      font-family: 'Share Tech Mono', monospace; font-size: 15px;
+      color: #fff; line-height: 1.6;
+    }
+    .contacts-block .v a { color: #60df2e; text-decoration: none; margin-right: 12px; }
+    .contacts-block .v a:hover { text-decoration: underline; }
+    .cities-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .city-chip {
+      font-family: 'Share Tech Mono', monospace; font-size: 11px;
+      color: rgba(255,255,255,0.7); letter-spacing: 1px;
+      padding: 6px 14px; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px;
+    }
+    .tg-card {
+      display: flex; align-items: center; gap: 20px;
+      padding: 32px; border-radius: 20px;
+      background: linear-gradient(135deg, #229ED9 0%, #0088CC 100%);
+      color: #fff; text-decoration: none;
+      box-shadow: 0 20px 60px rgba(34,158,217,0.25);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .tg-card:hover { transform: translateY(-4px); box-shadow: 0 28px 80px rgba(34,158,217,0.4); }
+    .tg-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .tg-txt { display: flex; flex-direction: column; gap: 4px; }
+    .tg-txt .top { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
+    .tg-txt .bot { font-family: 'Share Tech Mono', monospace; font-size: 22px; letter-spacing: 0.5px; }
+    .map-wrap {
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 20px;
+      overflow: hidden; height: 400px;
+    }
+    .map-wrap iframe {
+      width: 100%; height: 100%; border: none;
+      filter: grayscale(1) invert(0.92) contrast(0.85) hue-rotate(180deg);
+    }
+    @media (max-width: 900px) { .contacts-grid { grid-template-columns: 1fr; } }
+
+    /* --- Footer (new) --- */
+    .fx-footer {
+      background: #020203; padding: 80px 48px 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      position: relative; z-index: 10;
+    }
+    .fx-footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px; margin-bottom: 60px; max-width: 1280px; margin-left: auto; margin-right: auto;
+    }
+    .fx-footer-col { display: flex; flex-direction: column; gap: 14px; }
+    .fx-footer-col h4 {
+      font-family: 'Share Tech Mono', monospace; font-size: 11px;
+      color: rgba(255,255,255,0.4); letter-spacing: 2.5px; text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .fx-footer-col a, .fx-footer-col span {
+      font-family: 'Share Tech Mono', monospace; font-size: 13px;
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .fx-footer-col a:hover { color: #60df2e; }
+    .fx-footer-brand {
+      font-family: 'Share Tech Mono', monospace; font-size: 15px;
+      color: #fff; letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .fx-footer-desc {
+      font-family: 'Share Tech Mono', monospace; font-size: 12px;
+      color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 320px;
+    }
+    .fx-footer-disclaimer {
+      max-width: 1280px; margin: 0 auto;
+      padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06);
+      font-family: 'Share Tech Mono', monospace; font-size: 11px;
+      color: rgba(255,255,255,0.35); line-height: 1.7; letter-spacing: 0.5px;
+    }
+    @media (max-width: 900px) {
+      .fx-footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .fx-footer { padding: 60px 24px 32px; }
+    }
+    @media (max-width: 500px) { .fx-footer-grid { grid-template-columns: 1fr; } }
+
   </style>
   <script type="module">
 (function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))n(s);new MutationObserver(s=>{for(const r of s)if(r.type==="childList")for(const a of r.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&n(a)}).observe(document,{childList:!0,subtree:!0});function t(s){const r={};return s.integrity&&(r.integrity=s.integrity),s.referrerPolicy&&(r.referrerPolicy=s.referrerPolicy),s.crossOrigin==="use-credentials"?r.credentials="include":s.crossOrigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function n(s){if(s.ep)return;s.ep=!0;const r=t(s);fetch(s.href,r)}})();/**
@@ -6439,29 +6883,527 @@ void main() {
   </div>
 </section>
 
-<!-- ===== CTA ===== -->
-<section class="section section-cta" id="contacts">
-  <div class="section-inner" style="display:flex;flex-direction:column;align-items:center;text-align:center;">
-    <div class="section-label reveal" data-i18n="cta-label">Замовлення</div>
-    <h2 class="cta-heading reveal reveal-delay-1"><span data-i18n="cta-heading-main">Залиште заявку —</span> <span class="thin" data-i18n="cta-heading-thin">передзвонимо за 10 хвилин</span></h2>
-    <p class="cta-sub reveal reveal-delay-2" data-i18n="cta-sub">Працюємо цілодобово та без вихідних. Виїзд у межах 30 км від Києва — безкоштовно. Менеджер уточнить деталі та назве точну вартість.</p>
-    <div class="cta-actions reveal reveal-delay-3">
-      <button class="btn-primary"><span data-i18n="cta-btn-primary">Замовити прибирання</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
-      <a href="tel:+380671234567" class="btn-secondary">+38 (067) 123-45-67</a>
+<!-- ============================================================
+     HOW IT WORKS
+     ============================================================ -->
+<section class="fx-section" id="how">
+  <div class="fx-inner">
+    <div class="fx-eyebrow reveal">/ Process</div>
+    <h2 class="fx-h2 reveal reveal-delay-1">How it works <span class="thin">— four steps</span></h2>
+
+    <div class="hiw-canvas-wrap reveal reveal-delay-2">
+      <div class="hiw-layer back">USDT · TRC-20 → CASH · UAH</div>
+      <div class="hiw-layer top" id="hiw-top-layer">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:clamp(18px,2.5vw,26px);letter-spacing:2px;text-transform:uppercase;">
+          Two sides of every trade
+        </div>
+      </div>
+      <canvas class="hiw-canvas" id="hiw-canvas" aria-hidden="true"></canvas>
+      <div class="hiw-hint">Move cursor across the surface — reveal the other side</div>
+    </div>
+
+    <div class="hiw-grid reveal reveal-delay-3">
+      <div class="hiw-step">
+        <div class="hiw-step-num">STEP 01</div>
+        <div class="hiw-step-title">Submit request</div>
+        <div class="hiw-step-body">Pick amount, network and city. Takes about 20 seconds — no account, no upload.</div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">STEP 02</div>
+        <div class="hiw-step-title">Operator responds</div>
+        <div class="hiw-step-body">A real person confirms the rate over Telegram or phone within 2–3 minutes.</div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">STEP 03</div>
+        <div class="hiw-step-title">Meeting or courier</div>
+        <div class="hiw-step-body">Swap in a secured Kyiv office, or request in-city courier delivery to your address.</div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">STEP 04</div>
+        <div class="hiw-step-title">Receive cash</div>
+        <div class="hiw-step-body">Funds land the moment the on-chain transaction confirms. Full receipt, no residue.</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-  <div class="section-inner" style="display:flex;align-items:center;justify-content:space-between;width:100%;">
-    <div class="footer-left">
-      <div class="footer-dot"></div>
-      <span class="footer-brand">Clean Service</span>
+<!-- ============================================================
+     CALCULATOR
+     ============================================================ -->
+<section class="fx-section" id="exchange">
+  <div class="fx-inner">
+    <div class="fx-eyebrow reveal">/ Calculator</div>
+    <h2 class="fx-h2 reveal reveal-delay-1">Exchange <span class="thin">without registration</span></h2>
+    <p class="fx-lead reveal reveal-delay-2">Live on-market rate. No hidden spread, no KYC for standard amounts. Pick a direction, enter the sum — see the number you actually walk away with.</p>
+
+    <div class="calc-card reveal reveal-delay-3">
+      <!-- YOU SEND -->
+      <div class="calc-row">
+        <div style="flex:1;">
+          <div class="calc-row-label">You send</div>
+          <div class="calc-row-body">
+            <div class="calc-dropdown" data-target="from">
+              <span class="dd-value">USDT · TRC-20</span>
+              <div class="calc-dropdown-menu">
+                <div class="calc-dropdown-item" data-value="USDT · TRC-20" data-rate="41.72"><span class="icon">₮</span> USDT · TRC-20</div>
+                <div class="calc-dropdown-item" data-value="USDT · ERC-20" data-rate="41.65"><span class="icon">₮</span> USDT · ERC-20</div>
+                <div class="calc-dropdown-item" data-value="USDT · BEP-20" data-rate="41.70"><span class="icon">₮</span> USDT · BEP-20</div>
+                <div class="calc-dropdown-item" data-value="BTC" data-rate="4250000"><span class="icon" style="background:linear-gradient(135deg,#f7931a,#a8600b);">₿</span> BTC</div>
+                <div class="calc-dropdown-item" data-value="ETH" data-rate="152000"><span class="icon" style="background:linear-gradient(135deg,#627eea,#3c4ea1);color:#fff;">Ξ</span> ETH</div>
+              </div>
+            </div>
+            <input class="calc-input" id="amount-from" type="number" value="1000" min="0" step="10">
+          </div>
+        </div>
+      </div>
+
+      <!-- SWAP -->
+      <div class="calc-swap"><button class="calc-swap-btn" id="calc-swap" aria-label="Swap direction">⇄</button></div>
+
+      <!-- YOU GET -->
+      <div class="calc-row">
+        <div style="flex:1;">
+          <div class="calc-row-label">You get</div>
+          <div class="calc-row-body">
+            <div class="calc-dropdown" data-target="to">
+              <span class="dd-value">Cash · UAH</span>
+              <div class="calc-dropdown-menu">
+                <div class="calc-dropdown-item" data-value="Cash · UAH" data-rate="1"><span class="icon" style="background:linear-gradient(135deg,#0057b7,#ffd700);color:#fff;">₴</span> Cash · UAH</div>
+                <div class="calc-dropdown-item" data-value="Cash · USD" data-rate="0.024"><span class="icon" style="background:linear-gradient(135deg,#2c9c3d,#186a26);color:#fff;">$</span> Cash · USD</div>
+                <div class="calc-dropdown-item" data-value="Cash · EUR" data-rate="0.022"><span class="icon" style="background:linear-gradient(135deg,#003399,#ffcc00);color:#fff;">€</span> Cash · EUR</div>
+                <div class="calc-dropdown-item" data-value="Card · UAH" data-rate="1"><span class="icon" style="background:linear-gradient(135deg,#666,#333);color:#fff;">▭</span> Card · UAH</div>
+              </div>
+            </div>
+            <input class="calc-input" id="amount-to" type="number" value="41720" readonly>
+          </div>
+        </div>
+      </div>
+
+      <!-- CITY -->
+      <div class="calc-row">
+        <div style="flex:1;">
+          <div class="calc-row-label">Pickup city</div>
+          <div class="calc-row-body">
+            <div class="calc-dropdown" data-target="city">
+              <span class="dd-value">◉ Kyiv</span>
+              <div class="calc-dropdown-menu">
+                <div class="calc-dropdown-item" data-value="◉ Kyiv"><span class="icon" style="background:transparent;color:#60df2e;font-size:14px;">◉</span> Kyiv</div>
+                <div class="calc-dropdown-item" data-value="◉ Odesa"><span class="icon" style="background:transparent;color:#60df2e;font-size:14px;">◉</span> Odesa</div>
+                <div class="calc-dropdown-item" data-value="◉ Kharkiv"><span class="icon" style="background:transparent;color:#60df2e;font-size:14px;">◉</span> Kharkiv</div>
+                <div class="calc-dropdown-item" data-value="◉ Dnipro"><span class="icon" style="background:transparent;color:#60df2e;font-size:14px;">◉</span> Dnipro</div>
+                <div class="calc-dropdown-item" data-value="◉ Lviv"><span class="icon" style="background:transparent;color:#60df2e;font-size:14px;">◉</span> Lviv</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-info">
+        <span>Live rate: <b id="calc-rate-label">1 USDT-TRC20 ≈ 41.72 UAH</b></span>
+        <span>Fee: <b>0%</b></span>
+      </div>
+
+      <button class="calc-cta" id="open-request">Start exchange →</button>
     </div>
-    <div class="footer-right" data-i18n="footer-copyright">&copy; 2026 Clean Service — професійний клінінг вашого простору</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MODAL
+     ============================================================ -->
+<div class="fx-modal" id="requestModal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="fx-modal-card">
+    <button class="fx-modal-close" id="modal-close" aria-label="Close">✕</button>
+    <div class="fx-modal-side left">
+      <div class="fx-modal-title" id="modal-title">Order summary</div>
+      <div class="fx-summary-row">
+        <div>
+          <div class="label">Rate</div>
+          <div class="value" id="sum-rate">1 USDT = 41.72 UAH</div>
+        </div>
+      </div>
+      <div class="fx-summary-row">
+        <div>
+          <div class="label">You send</div>
+          <div class="value" id="sum-from">1000 USDT · TRC-20</div>
+        </div>
+      </div>
+      <div class="fx-summary-row">
+        <div>
+          <div class="label">You receive</div>
+          <div class="value accent" id="sum-to">41 720 UAH</div>
+        </div>
+      </div>
+      <div class="fx-summary-row" style="border-bottom:none;">
+        <div>
+          <div class="label">Pickup</div>
+          <div class="value" id="sum-city">Kyiv</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <div class="label" style="font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase;">What happens next</div>
+        <ul class="fx-checklist">
+          <li>Operator contacts you within 2–3 minutes</li>
+          <li>You confirm rate and receive wallet address</li>
+          <li>Send USDT — wait for on-chain confirmation</li>
+          <li>Meet at office or receive courier delivery</li>
+          <li>Get cash, sign receipt, close deal</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fx-modal-side right">
+      <div class="fx-modal-title">Your details</div>
+      <div class="fx-field"><label>Name</label><input type="text" placeholder="John Doe" id="req-name"></div>
+      <div class="fx-field"><label>Email</label><input type="email" placeholder="you@mail.com" id="req-email"></div>
+      <div class="fx-field"><label>Telegram</label><input type="text" placeholder="@username" id="req-tg"></div>
+      <div class="fx-field">
+        <label>City</label>
+        <div class="calc-dropdown" data-target="modal-city">
+          <span class="dd-value">◉ Kyiv</span>
+          <div class="calc-dropdown-menu">
+            <div class="calc-dropdown-item" data-value="◉ Kyiv"><span class="icon" style="background:transparent;color:#60df2e;">◉</span> Kyiv</div>
+            <div class="calc-dropdown-item" data-value="◉ Odesa"><span class="icon" style="background:transparent;color:#60df2e;">◉</span> Odesa</div>
+            <div class="calc-dropdown-item" data-value="◉ Kharkiv"><span class="icon" style="background:transparent;color:#60df2e;">◉</span> Kharkiv</div>
+            <div class="calc-dropdown-item" data-value="◉ Dnipro"><span class="icon" style="background:transparent;color:#60df2e;">◉</span> Dnipro</div>
+            <div class="calc-dropdown-item" data-value="◉ Lviv"><span class="icon" style="background:transparent;color:#60df2e;">◉</span> Lviv</div>
+          </div>
+        </div>
+      </div>
+      <label class="fx-check"><input type="checkbox" id="agree-terms"> I agree to the <a href="#" style="color:#60df2e;">service rules</a> and confirm the direction of exchange</label>
+      <label class="fx-check"><input type="checkbox" id="agree-kyc"> I acknowledge the <a href="#" style="color:#60df2e;">KYC/AML policy</a> for amounts above the threshold</label>
+      <button class="fx-submit" id="submit-request">Submit request</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ABOUT / ADVANTAGES
+     ============================================================ -->
+<section class="fx-section" id="about">
+  <div class="fx-inner">
+    <div class="fx-eyebrow reveal">/ About us</div>
+    <h2 class="fx-h2 reveal reveal-delay-1">Direct-liquidity <span class="thin">OTC desk since 2018</span></h2>
+    <p class="about-lead reveal reveal-delay-2">
+      We opened our first office in Kyiv in <b>2018</b> when crypto-to-cash still meant a car park and a plastic bag. Eight years later we operate secured offices in <b>five Ukrainian cities</b>, serve verified counterparties from across the region, and handle <b>north of $180M in annual volume</b> — while keeping every trade anonymous by default. The desk is human, the liquidity is direct, the workflow is built around one thing: <b>your privacy</b>.
+    </p>
+
+    <div class="adv-grid reveal reveal-delay-3">
+      <div class="adv-card">
+        <div class="adv-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/></svg></div>
+        <div class="adv-title">Security</div>
+        <div class="adv-body">Fortified office with restricted access, live currency detectors on every note, cameras on and off the counter. No visible signage from the street.</div>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div class="adv-title">Speed</div>
+        <div class="adv-body">Median deal closes in 15 minutes from confirmation. Same-day courier across Kyiv for amounts up to $50k. No queues, no callback delays.</div>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/><path d="M2 3l20 20" stroke-linecap="round"/></svg></div>
+        <div class="adv-title">Anonymity</div>
+        <div class="adv-body">No sign-up, no scans, no identity checks for standard amounts. Data isn't stored beyond the trade. Show up, swap, walk out.</div>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+        <div class="adv-title">Best rate</div>
+        <div class="adv-body">Direct wholesale liquidity — no exchange middleman between you and the market. Rate you see is the rate you get, updated every 30 seconds.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     REVIEWS
+     ============================================================ -->
+<section class="fx-section" id="reviews">
+  <div class="fx-inner">
+    <div class="fx-eyebrow reveal">/ Trust</div>
+    <h2 class="fx-h2 reveal reveal-delay-1">Reviews <span class="thin">from real clients</span></h2>
+
+    <div class="trust-badges reveal reveal-delay-2">
+      <div class="trust-badge"><div class="trust-badge-val">52K+</div><div class="trust-badge-label">successful trades</div></div>
+      <div class="trust-badge"><div class="trust-badge-val">4.9 / 5</div><div class="trust-badge-label">average rating</div></div>
+      <div class="trust-badge"><div class="trust-badge-val">8 years</div><div class="trust-badge-label">on the market</div></div>
+      <div class="trust-badge"><div class="trust-badge-val">5</div><div class="trust-badge-label">cities of Ukraine</div></div>
+    </div>
+
+    <div class="reviews-slider-wrap reveal reveal-delay-3">
+      <div class="reviews-track" id="reviews-track">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACTS
+     ============================================================ -->
+<section class="fx-section" id="contacts">
+  <div class="fx-inner">
+    <div class="fx-eyebrow reveal">/ Contacts</div>
+    <h2 class="fx-h2 reveal reveal-delay-1">Come by <span class="thin">or reach out</span></h2>
+
+    <div class="contacts-grid reveal reveal-delay-2">
+      <div class="contacts-info">
+        <div class="contacts-block">
+          <span class="k">Main office</span>
+          <span class="v">Khreshchatyk 22, Kyiv<br>2nd floor, entry from the courtyard</span>
+        </div>
+        <div class="contacts-block">
+          <span class="k">Cities served</span>
+          <div class="cities-chips">
+            <span class="city-chip">Kyiv</span>
+            <span class="city-chip">Odesa</span>
+            <span class="city-chip">Kharkiv</span>
+            <span class="city-chip">Dnipro</span>
+            <span class="city-chip">Lviv</span>
+          </div>
+        </div>
+        <div class="contacts-block">
+          <span class="k">Phone</span>
+          <span class="v">
+            <a href="tel:+380671234567">+38 (067) 123-45-67</a>
+            <a href="https://t.me/fx_social_club">Telegram</a>
+            <a href="viber://chat?number=%2B380671234567">Viber</a>
+          </span>
+        </div>
+        <div class="contacts-block">
+          <span class="k">Hours</span>
+          <span class="v">24 / 7 / 365 — including weekends and holidays</span>
+        </div>
+      </div>
+
+      <a href="https://t.me/fx_social_club" target="_blank" rel="noopener" class="tg-card">
+        <div class="tg-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.24 3.64 11.95c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+        </div>
+        <div class="tg-txt">
+          <span class="top">Fastest way to reach us</span>
+          <span class="bot">Write on Telegram</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="map-wrap reveal reveal-delay-3">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.9843!2d30.5216!3d50.4489!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sKhreshchatyk%2022%2C%20Kyiv!5e0!3m2!1sen!2sua!4v1720800000000"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="FX Exchange Club — main office on the map">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="fx-footer">
+  <div class="fx-footer-grid">
+    <div class="fx-footer-col">
+      <div class="fx-footer-brand">FX Exchange Club</div>
+      <div class="fx-footer-desc">Direct-liquidity OTC desk. USDT ⇄ cash, card, wallet. Kyiv-headquartered, five-city footprint, human on the line 24/7.</div>
+    </div>
+    <div class="fx-footer-col">
+      <h4>Sitemap</h4>
+      <a href="#top">Home</a>
+      <a href="#how">How it works</a>
+      <a href="#exchange">Calculator</a>
+      <a href="#about">About</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contacts">Contacts</a>
+    </div>
+    <div class="fx-footer-col">
+      <h4>Cities</h4>
+      <a href="#contacts">Kyiv</a>
+      <a href="#contacts">Odesa</a>
+      <a href="#contacts">Kharkiv</a>
+      <a href="#contacts">Dnipro</a>
+      <a href="#contacts">Lviv</a>
+    </div>
+    <div class="fx-footer-col">
+      <h4>Quick contact</h4>
+      <a href="https://t.me/fx_social_club">Telegram</a>
+      <a href="tel:+380671234567">+38 067 123-45-67</a>
+      <a href="mailto:desk@fxexchange.club">desk@fxexchange.club</a>
+      <span style="color:rgba(255,255,255,0.4);">24 / 7 / 365</span>
+    </div>
+  </div>
+  <div class="fx-footer-disclaimer">
+    © 2026 FX Exchange Club. Cryptocurrency trades involve market and counterparty risk. FX Exchange Club operates in accordance with the laws of Ukraine, including AML/CFT requirements above statutory thresholds. Information on this site is not financial advice. By using the service you confirm that you have reached the age of majority and that the source of your funds is lawful.
   </div>
 </footer>
+
+<script>
+/* ===== HOW IT WORKS — canvas erase ===== */
+(function(){
+  const canvas = document.getElementById('hiw-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let dpr = window.devicePixelRatio || 1;
+
+  function resize(){
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    // Paint the overlay (dark cover with subtle texture)
+    ctx.globalCompositeOperation = 'source-over';
+    const g = ctx.createLinearGradient(0,0,rect.width,rect.height);
+    g.addColorStop(0, 'rgba(10,20,32,0.98)');
+    g.addColorStop(1, 'rgba(6,16,24,0.98)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,rect.width,rect.height);
+    // subtle noise
+    for (let i=0; i<600; i++){
+      ctx.fillStyle = 'rgba(255,255,255,'+(Math.random()*0.03)+')';
+      ctx.fillRect(Math.random()*rect.width, Math.random()*rect.height, 1, 1);
+    }
+    ctx.globalCompositeOperation = 'destination-out';
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function erase(x,y){
+    const rect = canvas.getBoundingClientRect();
+    ctx.beginPath();
+    ctx.arc(x - rect.left, y - rect.top, 45, 0, Math.PI*2);
+    ctx.fill();
+  }
+  let drawing = false;
+  canvas.addEventListener('mousemove', e => { erase(e.clientX, e.clientY); });
+  canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    for (const t of e.touches) erase(t.clientX, t.clientY);
+  }, {passive:false});
+})();
+
+/* ===== CALCULATOR ===== */
+(function(){
+  const dropdowns = document.querySelectorAll('.calc-dropdown');
+  dropdowns.forEach(dd => {
+    dd.addEventListener('click', e => {
+      e.stopPropagation();
+      dropdowns.forEach(d => { if (d !== dd) d.classList.remove('open'); });
+      dd.classList.toggle('open');
+    });
+    dd.querySelectorAll('.calc-dropdown-item').forEach(item => {
+      item.addEventListener('click', e => {
+        e.stopPropagation();
+        const val = item.getAttribute('data-value');
+        const rate = item.getAttribute('data-rate');
+        dd.querySelector('.dd-value').innerHTML = item.innerHTML;
+        if (rate) dd.setAttribute('data-rate', rate);
+        dd.setAttribute('data-current', val);
+        dd.classList.remove('open');
+        recalc();
+      });
+    });
+  });
+  document.addEventListener('click', () => { dropdowns.forEach(d => d.classList.remove('open')); });
+
+  const amountFrom = document.getElementById('amount-from');
+  const amountTo   = document.getElementById('amount-to');
+  const rateLabel  = document.getElementById('calc-rate-label');
+  const fromDD     = document.querySelector('.calc-dropdown[data-target="from"]');
+  const toDD       = document.querySelector('.calc-dropdown[data-target="to"]');
+
+  function getRate(dd, def){
+    const r = dd.querySelector('.calc-dropdown-item[data-value="'+ (dd.getAttribute('data-current') || dd.querySelector('.dd-value').textContent.trim()) +'"]');
+    return r ? parseFloat(r.getAttribute('data-rate')) : def;
+  }
+
+  function recalc(){
+    const fromItem = fromDD.querySelector('.dd-value').textContent.trim();
+    const toItem   = toDD.querySelector('.dd-value').textContent.trim();
+    // find selected items
+    let fromRate = 41.72, toRate = 1;
+    fromDD.querySelectorAll('.calc-dropdown-item').forEach(it => {
+      if (it.getAttribute('data-value') === fromItem) fromRate = parseFloat(it.getAttribute('data-rate'));
+    });
+    toDD.querySelectorAll('.calc-dropdown-item').forEach(it => {
+      if (it.getAttribute('data-value') === toItem) toRate = parseFloat(it.getAttribute('data-rate'));
+    });
+    const amt = parseFloat(amountFrom.value) || 0;
+    const uahValue = amt * fromRate;      // convert crypto → UAH baseline
+    const finalVal = uahValue * toRate;   // convert UAH → target
+    amountTo.value = Math.round(finalVal * 100) / 100;
+    rateLabel.textContent = '1 ' + fromItem.split(' ')[0] + ' ≈ ' + (fromRate * toRate).toFixed(2) + ' ' + (toItem.split(' ').pop());
+  }
+  amountFrom.addEventListener('input', recalc);
+  document.getElementById('calc-swap').addEventListener('click', () => {
+    // just swap the dropdown values visually (crypto/cash are asymmetric, so it's a UX flourish)
+    document.getElementById('calc-swap').style.transform = 'rotate(180deg)';
+    setTimeout(() => document.getElementById('calc-swap').style.transform = '', 400);
+    recalc();
+  });
+  recalc();
+
+  /* ===== MODAL ===== */
+  const modal = document.getElementById('requestModal');
+  document.getElementById('open-request').addEventListener('click', () => {
+    // sync summary
+    document.getElementById('sum-rate').textContent = rateLabel.textContent.replace(/^Live rate: /,'');
+    document.getElementById('sum-from').textContent = amountFrom.value + ' ' + fromDD.querySelector('.dd-value').textContent.trim();
+    document.getElementById('sum-to').textContent   = new Intl.NumberFormat('en-US').format(amountTo.value) + ' ' + toDD.querySelector('.dd-value').textContent.replace(/^(Cash|Card) · /,'');
+    document.getElementById('sum-city').textContent = document.querySelector('.calc-dropdown[data-target="city"] .dd-value').textContent.replace('◉','').trim();
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  function closeModal(){ modal.classList.remove('open'); document.body.style.overflow = ''; }
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  document.getElementById('submit-request').addEventListener('click', () => {
+    const ok1 = document.getElementById('agree-terms').checked;
+    const ok2 = document.getElementById('agree-kyc').checked;
+    if (!ok1 || !ok2) { alert('Please accept the service rules and KYC/AML policy to proceed.'); return; }
+    const name = document.getElementById('req-name').value.trim();
+    if (!name) { alert('Please enter your name.'); return; }
+    const btn = document.getElementById('submit-request');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = '✓ Request sent';
+      btn.style.background = '#60df2e';
+      setTimeout(closeModal, 1200);
+    }, 800);
+  });
+})();
+
+/* ===== REVIEWS SLIDER (infinite) ===== */
+(function(){
+  const track = document.getElementById('reviews-track');
+  if (!track) return;
+  const reviews = [
+    { name: 'Andriy K.',    date: '02.07.2026', stars: 5, text: 'Fast and to the point. Got 20K USDT into cash inside 20 minutes, courier was polite and precise. Been a client since 2021.', tag: 'USDT → UAH', avatar: 'A' },
+    { name: 'Maria L.',     date: '28.06.2026', stars: 5, text: 'Best rate I found in Kyiv, checked five other desks. No paperwork, no runaround. Highly recommend for larger amounts.', tag: 'USDT → USD', avatar: 'M' },
+    { name: 'Denis S.',     date: '22.06.2026', stars: 5, text: 'The office is discreet and the operator knew exactly what I needed. Currency detector on every bill — professional operation.', tag: 'BTC → UAH', avatar: 'D' },
+    { name: 'Olga R.',      date: '15.06.2026', stars: 4, text: 'Solid experience overall. Rate held during the whole trade, no surprise fees. Will use again for the Odesa branch.', tag: 'ETH → EUR', avatar: 'O' },
+    { name: 'Vitalii P.',   date: '10.06.2026', stars: 5, text: 'I run a small import business — needed reliable USDT liquidity every month. FX Exchange Club has been rock solid for 3 years.', tag: 'USDT → CARD', avatar: 'V' },
+    { name: 'Iryna M.',     date: '04.06.2026', stars: 5, text: 'Telegram response in under two minutes at 11pm on a Saturday. That alone is worth switching from any other desk.', tag: 'USDT → UAH', avatar: 'I' },
+    { name: 'Serhii B.',    date: '29.05.2026', stars: 5, text: 'Courier delivery to Podil in under an hour. Bills freshly counted in front of me. Ten out of ten.', tag: 'USDT → USD', avatar: 'S' },
+    { name: 'Kateryna T.',  date: '21.05.2026', stars: 5, text: 'Anonymous, quick, no pressure. Exactly what an OTC desk should be. Rate was better than three competitors I checked.', tag: 'BTC → UAH', avatar: 'K' },
+  ];
+  function cardHTML(r){
+    return `<div class="review-card">
+      <div class="review-head">
+        <div class="review-avatar">${r.avatar}</div>
+        <div class="review-who">
+          <span class="review-name">${r.name}</span>
+          <span class="review-date">${r.date}</span>
+        </div>
+        <div style="margin-left:auto;" class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+      </div>
+      <div class="review-text">${r.text}</div>
+      <span class="review-tag">${r.tag}</span>
+    </div>`;
+  }
+  // duplicate for infinite scroll
+  track.innerHTML = reviews.map(cardHTML).join('') + reviews.map(cardHTML).join('');
+})();
+</script>
 
 <script>
   const hamburger = document.getElementById('hamburger');
